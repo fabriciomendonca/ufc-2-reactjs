@@ -8,7 +8,7 @@ export default class App extends Component {
     this.state = {};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const URL = 'https://api.github.com/users';
 
     axios.get(URL).then((response) => {
@@ -23,13 +23,19 @@ export default class App extends Component {
       <table>
         <thead>
           <tr>
+            <th></th>
             <th>User</th>
+            <th>URL</th>
           </tr>
         </thead>
         <tbody>
           {this.state.users.map((user) => {
             return (
-              <tr key={user.id}><td>{user.login}</td></tr>
+              <tr key={user.id}>
+                <td><img src={user.avatar_url} width="30" /></td>
+                <td>{user.login}</td>
+                <td><a href={user.url} target="_blank">GitHub</a></td>
+              </tr>
             )
           })}
         </tbody>
@@ -38,7 +44,7 @@ export default class App extends Component {
   }
 
   render() {
-    const list = this.state.users ? this.renderList() : '<div>Loading users...</div>';
+    const list = this.state.users ? this.renderList() : <div>Loading users...</div>;
 
     return(
       <div>
